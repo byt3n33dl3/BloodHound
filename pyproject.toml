@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bloodhound-ad"
-version = "6.3.5"
+version = "6.3.7"
 description = "Six Degrees of Enterprise Domain Admin - Attack Path Management"
 readme = "README.md"
 authors = [
