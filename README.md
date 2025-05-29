@@ -206,7 +206,3 @@ under the `Apache-2.0` license. A full copy of the license may be found in the t
 ## BloodHound `Contributors`
 
 Virtual hug to everyone who contributed
-
-<a href="https://github.com/byt3n33dl3/BloodHound/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=byt3n33dl3/BloodHound"/>
-</a>
