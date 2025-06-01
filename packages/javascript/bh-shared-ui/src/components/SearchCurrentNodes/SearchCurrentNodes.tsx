@@ -1,26 +1,10 @@
-// Copyright 2023 Specter Ops, Inc.
-//
-// Licensed under the Apache License, Version 2.0
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Box, List, ListItem, Paper, SxProps, TextField } from '@mui/material';
 import { useCombobox } from 'downshift';
 import { FC, useEffect, useRef, useState } from 'react';
+import { FixedSizeList } from 'react-window';
+import { useOnClickOutside } from '../../hooks';
 import SearchResultItem from '../SearchResultItem';
 import { FlatNode, GraphNodes } from './types';
-import { useOnClickOutside } from '../../hooks';
-import { FixedSizeList } from 'react-window';
 
 export const PLACEHOLDER_TEXT = 'Search Current Results';
 export const NO_RESULTS_TEXT = 'No result found in current results';
@@ -38,7 +22,6 @@ const SearchCurrentNodes: FC<{
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [items, setItems] = useState<FlatNode[]>([]);
-    const [selectedNode, setSelectedNode] = useState<FlatNode | null | undefined>(null);
 
     // Node data is a lot easier to work with in the combobox if we transform to an array of flat objects
     const flatNodeList: FlatNode[] = Object.entries(currentNodes).map(([key, value]) => {
@@ -46,8 +29,6 @@ const SearchCurrentNodes: FC<{
     });
 
     useEffect(() => inputRef.current?.focus(), []);
-
-    if (selectedNode) onSelect(selectedNode);
 
     // Since we are using a virtualized results container, we need to calculate the height for shorter
     // lists to avoid whitespace
@@ -75,7 +56,9 @@ const SearchCurrentNodes: FC<{
             const { changes, type } = actionAndChanges;
             switch (type) {
                 case useCombobox.stateChangeTypes.ItemClick:
-                    if (changes.selectedItem) setSelectedNode(changes.selectedItem);
+                    if (changes.selectedItem) {
+                        onSelect(changes.selectedItem);
+                    }
                     return { ...changes, inputValue: '' };
                 default:
                     return changes;
